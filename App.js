@@ -10,6 +10,7 @@ export default class App extends React.Component {
       creatingAlarm: false,
       existingAlarms: [],
       alarmCount: 0,
+      pushToken: "TEST",
     }
   }
 
@@ -46,6 +47,29 @@ export default class App extends React.Component {
     // contacts (comma delimited string)
     // message (string)
     // alarmid (integer)
+
+    let repeatIntervalCode = 1
+    if (newAlarm.repeatInterval == "Daily")
+      repeatIntervalCode = 2
+    else if (newAlarm.repeatInterval == "Weekly")
+      repeatIntervalCode = 3
+
+    fetch('https://mywebsite.com/endpoint/', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        push_token: this.state.pushToken,
+        alarm_id: newAlarm.id,
+        start_time: newAlarm.startDate.getTime(),
+        interval: repeatIntervalCode,
+        warning_time: newAlarm.responseInterval,
+        message: newAlarm.message,
+        contact: newAlarm.contact,
+      })
+    })
   }
 
   render() {
