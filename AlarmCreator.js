@@ -40,6 +40,14 @@ module.exports = class AlarmCreator extends React.Component {
     this._hideDateTimePicker();
   }
 
+  _handleRepeatIntervalPicked = (index, value) => {
+    this.setState({creatingRepeatInterval: value})
+  }
+
+  _handleResponseIntervalPicked = (index, value) => {
+    this.setState({creatingResponseInterval: value})
+  }
+
   _handleCompletion = () => {
     if (!this.parseEmails(this.state.creatingEmailContact))
       return
@@ -74,26 +82,30 @@ module.exports = class AlarmCreator extends React.Component {
             maxLength = {100}
             style={styles.textInput}
           />
-          <Text style={{fontSize: 14, fontWeight: 'bold'}}>Repeat Interval (hours):</Text>
-          <ModalDropdown 
+          <Text style={{fontSize: 14, fontWeight: 'bold'}}>Repeat Interval:</Text>
+          <ModalDropdown
+            defaultValue={this.state.creatingRepeatInterval}
+            options={["Hourly", "Daily", "Weekly"]}
+            onSelect={this._handleRepeatIntervalPicked}
             style={styles.timeInputWrapper}
             dropdownStyle={styles.timeInputDropdown}
             textStyle={styles.timeInputText}
-            options={["Hourly", "Daily", "Weekly"]}
           />
           <Text style={{fontSize: 14, fontWeight: 'bold'}}>Time to Respond (minutes):</Text>
-          <ModalDropdown 
+          <ModalDropdown
+            defaultValue={this.state.creatingResponseInterval}
+            options={[5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55]}
+            onSelect={this._handleResponseIntervalPicked}
             style={styles.timeInputWrapper}
             dropdownStyle={styles.timeInputDropdown}
             textStyle={styles.timeInputText}
-            options={["Hourly", "Daily", "Weekly"]}
           />
           <Text style={{fontSize: 14, fontWeight: 'bold'}}>Start date:</Text>
           <TouchableHighlight
             onPress={this._showDateTimePicker}
             style={styles.textInput}
           >
-            <Text>{this.state.creatingDate.toString()}</Text>
+            <Text style={styles.dateText}>{this.state.creatingDate.toString()}</Text>
           </TouchableHighlight>
           <DateTimePicker
             mode="datetime"
@@ -176,6 +188,10 @@ const styles = StyleSheet.create({
   },
   timeInputText: {
     fontSize: 14,
-    padding: 5,
+    paddingTop: 8,
+    paddingLeft: 5,
+  },
+  dateText: {
+    paddingTop: 8,
   }
 });
