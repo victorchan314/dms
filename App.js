@@ -1,32 +1,48 @@
 import React from 'react';
-import { StyleSheet, Text, TextInput, View, TouchableHighlight, AsyncStorage } from 'react-native';
+import { StyleSheet, Text, TextInput, View, TouchableHighlight, AsyncStorage } from 'react-native'
 import AlarmCreator from './AlarmCreator'
 import AlarmDisplayer from './AlarmDisplayer'
 import { Permissions, Notifications } from 'expo'
 
-const PUSH_KEY = 'push_token'
+const PUSH_KEY = 'push_token3'
+const PUSH_ENDPOINT = 'https://your-server.com/users/push-token'
 
 export default class App extends React.Component {
   constructor() {
     super()
-    this.getPushToken()
     this.state = {
       creatingAlarm: false,
       existingAlarms: [],
       alarmCount: 0,
       pushToken: "nope",
     }
+    this.getPushToken()
   }
 
   getPushToken = () => {
     let push_token
     AsyncStorage.getItem(PUSH_KEY).then((token)=>{
       if (token == null) {
-        AsyncStorage.setItem(PUSH_KEY, null)
+        this._getExponentPushToken()
       } else {
         this.setState({pushToken: token})
       }
     })
+  }
+
+  _getExponentPushToken = () => {
+    this._getExponentPushTokenAsync()
+  };
+
+  async _getExponentPushTokenAsync() {
+    try {
+      let { status } = await Permissions.askAsync(Permissions.REMOTE_NOTIFICATIONS);
+      let pushToken = await Notifications.getExponentPushTokenAsync();
+      AsyncStorage.setItem(PUSH_KEY, pushToken)
+      this.setState({ pushToken });
+    } catch (error) {
+      this.setState({ pushToken: "Error"});
+    }
   }
 
   createNewAlarm = () => {
@@ -54,22 +70,13 @@ export default class App extends React.Component {
     newAlarmArray.push(newAlarm);
     this.setState({existingAlarms: newAlarmArray})
 
-    // make api call
-    // hourly, daily, weekly (1, 2, 3) integer
-    // start date (milliseconds -integer)
-    // time to respond (integer from 5 to 55)
-    // push token (string)
-    // contacts (comma delimited string)
-    // message (string)
-    // alarmid (integer)
-
     let repeatIntervalCode = 1
     if (newAlarm.repeatInterval == "Daily")
       repeatIntervalCode = 2
     else if (newAlarm.repeatInterval == "Weekly")
       repeatIntervalCode = 3
 
-    fetch('https://mywebsite.com/endpoint/', {
+    fetch(PUSH_ENDPOINT, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -94,7 +101,7 @@ export default class App extends React.Component {
     }
     return (
       <View style={styles.container}>
-        <Text style={styles.titleText}>Dead Man's Switch {this.state.pushToken}</Text>
+        <Text style={styles.titleText}>Dead Man's Switch</Text>
         <AlarmDisplayer alarms={this.state.existingAlarms} />
         <TouchableHighlight
           style={styles.submit}
