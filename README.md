@@ -30,9 +30,12 @@ The inspiration for the application derived from our team members' travels. We a
 
 The mobile app is implemented in React Native with the [Expo API](https://expo.io/). This allows us to be cross-compatible with a simple but sleek interface designed for quick and easy usage.
 
-![List of alarms](alarms.png)
+<!--![List of alarms](alarms.png)
 ![Creating an alarm](create.png)
-![Selecting the start date](date.png)
+![Selecting the start date](date.png)-->
+<img src="alarms.png" alt="List of alarms" style="width:200px">
+<img src="create.png" alt="Creating an alarm" style="width:200px">
+<img src="date.png" alt="Selecting the start date" style="width:200px">
 
 ### Back-end
 
