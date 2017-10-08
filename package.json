@@ -8,6 +8,8 @@
   "dependencies": {
     "expo": "^21.0.0",
     "react": "16.0.0-alpha.12",
-    "react-native": "https://github.com/expo/react-native/archive/sdk-21.0.2.tar.gz"
+    "react-native": "https://github.com/expo/react-native/archive/sdk-21.0.2.tar.gz",
+    "react-native-modal-datetime-picker": "^4.11.0",
+    "react-native-modal-dropdown": "^0.5.0"
   }
 }
