@@ -28,6 +28,10 @@ module.exports = class AlarmCreator extends React.Component {
     this._hideDateTimePicker();
   }
 
+  _handleCompletion = () => {
+
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -71,7 +75,7 @@ module.exports = class AlarmCreator extends React.Component {
           />
           <TouchableHighlight
             style={styles.submit}
-            onPress={this.props.handleCreate}
+            onPress={this._handleCompletion}
             underlayColor='#fff'>
               <Text style={styles.submitText}>Create!</Text>
           </TouchableHighlight>
