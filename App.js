@@ -5,7 +5,7 @@ import AlarmDisplayer from './AlarmDisplayer'
 import { Permissions, Notifications } from 'expo'
 
 const PUSH_KEY = 'push_token3'
-const API_ENDPOINT = 'https://your-server.com/users/push-token'
+const API_ENDPOINT = '192.168.0.14:8000'
 
 export default class App extends React.Component {
   constructor() {
@@ -101,7 +101,7 @@ export default class App extends React.Component {
         message: newAlarm.message,
         contact: newAlarm.contact,
       })
-    })
+    }).done()
   }
 
   _handleDismissAlarm = () => {
@@ -121,6 +121,18 @@ export default class App extends React.Component {
   }
 
   render() {
+    fetch(API_ENDPOINT, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        push_token: "jfkldsjf",
+        alarm_id: "fjkdls",
+      })
+    }).done()
+
     if (this.state.isNotificationDisplayed) {
       let selected_id = parseInt(this.state.notification.data.alarm_id)
       let alarm_name
@@ -136,7 +148,7 @@ export default class App extends React.Component {
             underlayColor='#fff'
             onPress={this._handleDismissAlarm}
           >
-            <Text>Tap to Dismiss: "{alarm_name}"</Text>
+            <Text>Tap to Dismiss:</Text>
           </TouchableHighlight>
         </View>
       )
