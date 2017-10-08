@@ -76,9 +76,7 @@ export default class App extends React.Component {
     if (this.state.creatingAlarm) {
       return <AlarmCreator handleCreate={this.handleCreate} />
     }
-
     return (
-
       <View style={styles.container}>
         <Text style={styles.titleText}>Dead Man's Switch</Text>
         <AlarmDisplayer alarms={this.state.existingAlarms} />
@@ -104,6 +102,8 @@ const styles = StyleSheet.create({
   },
   submit: {
     width: 200,
+    marginTop: 50,
+    marginBottom: 50,
     marginRight:40,
     marginLeft:40,
     paddingTop:10,
