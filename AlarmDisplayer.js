@@ -17,7 +17,7 @@ module.exports = class AlarmDisplayer extends React.Component {
       )
     }
     return (
-      <ScrollView contentContainerStyle={styles.container}>
+      <ScrollView style={styles.container}>
         {this.props.alarms.map(alarm => {
           return (
             <View style={styles.alarmItem}>
@@ -38,7 +38,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'flex-start',
     width: 325,
-    height: 100,
     marginBottom: 10,
     borderRadius: 3,
   },

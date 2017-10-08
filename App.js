@@ -84,7 +84,7 @@ export default class App extends React.Component {
           style={styles.submit}
           onPress={this.createNewAlarm}
           underlayColor='#fff'>
-            <Text style={styles.submitText}>Create a new alarm:</Text>
+            <Text style={styles.submitText}>Create a New Alarm</Text>
         </TouchableHighlight>
       </View>
     );
@@ -101,8 +101,8 @@ const styles = StyleSheet.create({
     borderRadius: 3,
   },
   submit: {
-    width: 200,
-    marginTop: 50,
+    width: 300,
+    marginTop: 20,
     marginBottom: 50,
     marginRight:40,
     marginLeft:40,
@@ -116,6 +116,8 @@ const styles = StyleSheet.create({
   submitText: {
     color:'#fff',
     textAlign:'center',
+    fontSize: 20,
+    fontWeight: 'bold',
   },
   titleText: {
     fontSize: 26,
