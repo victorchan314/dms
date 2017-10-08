@@ -71,7 +71,7 @@ export default class App extends React.Component {
       repeatInterval: data.creatingRepeatInterval,
       responseInterval: data.creatingResponseInterval,
       startDate: data.creatingDate,
-      id: this.state.alarmCount,
+      alarmId: this.state.alarmCount,
       message: data.message,
     }
     this.setState({alarmCount: this.state.alarmCount + 1})
@@ -122,14 +122,21 @@ export default class App extends React.Component {
 
   render() {
     if (this.state.isNotificationDisplayed) {
+      let selected_id = parseInt(this.state.notification.data.alarm_id)
+      let alarm_name
+      for (alarm in this.state.existingAlarms) {
+        if (parseInt(alarm.alarmId) == selected_id) {
+          alarm_name = alarm.name
+        }
+      }
+
       return (
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
           <TouchableHighlight
             underlayColor='#fff'
             onPress={this._handleDismissAlarm}
           >
-            <Text>Origin: {this.state.notification.origin}</Text>
-            <Text>Data: {JSON.stringify(this.state.notification.data)}</Text>
+            <Text>Tap to Dismiss: "{alarm_name}"</Text>
           </TouchableHighlight>
         </View>
       )
@@ -140,7 +147,7 @@ export default class App extends React.Component {
       }
       return (
         <View style={styles.container}>
-          <Text style={styles.titleText}>Dead Man's Switch {this.state.pushToken}</Text>
+          <Text style={styles.titleText}>Dead Man's Switch</Text>
           <AlarmDisplayer alarms={this.state.existingAlarms} />
           <TouchableHighlight
             style={styles.submit}

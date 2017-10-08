@@ -11,9 +11,9 @@ module.exports = class AlarmCreator extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      creatingAlarmName: "Enter the name of your alarm...",
-      creatingEmailContact: "Enter your emergency email contact...",
-      creatingMessage: "Enter your emergency message...",
+      creatingAlarmName: "x",
+      creatingEmailContact: "x",
+      creatingMessage: "x",
       creatingRepeatInterval: "Hourly",
       creatingResponseInterval: 30,
       creatingDate: new Date(),

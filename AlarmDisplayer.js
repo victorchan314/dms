@@ -22,7 +22,7 @@ module.exports = class AlarmDisplayer extends React.Component {
           return (
             <View style={styles.alarmItem}>
               <Text>{alarm.name}: {alarm.repeatInterval}</Text>
-              <Text>{alarm.startDate.toString()}</Text>
+              <Text>{alarm.alarmId}: {alarm.startDate.toString()}</Text>
             </View>
           )
         })}
