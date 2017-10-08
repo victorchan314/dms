@@ -1,12 +1,13 @@
 import React from 'react';
 import { StyleSheet, Text, TextInput, View, TouchableHighlight } from 'react-native';
 import AlarmCreator from './AlarmCreator'
+import AlarmDisplayer from './AlarmDisplayer'
 
 export default class App extends React.Component {
   constructor() {
     super()
     this.state = {
-      creatingAlarm: true,
+      creatingAlarm: false,
       existingAlarms: [],
       alarmCount: 0,
     }
@@ -26,12 +27,16 @@ export default class App extends React.Component {
       name: data.creatingAlarmName,
       contact: data.creatingAlarmContact,
       repeatInterval: data.creatingRepeatInterval,
+      responseInterval: data.creatingResponseInterval,
       startDate: data.creatingDate,
       id: this.state.alarmCount,
       message: data.message,
     }
     this.setState({alarmCount: this.state.alarmCount + 1})
     // add alarm to list of alarms
+    let newAlarmArray = this.state.existingAlarms.slice();
+    newAlarmArray.push(newAlarm);
+    this.setState({existingAlarms: newAlarmArray})
 
     // make api call
     // hourly, daily, weekly (1, 2, 3) integer
@@ -49,7 +54,10 @@ export default class App extends React.Component {
     }
 
     return (
+
       <View style={styles.container}>
+        <Text style={styles.titleText}>Dead Man's Switch</Text>
+        <AlarmDisplayer alarms={this.state.existingAlarms} />
         <TouchableHighlight
           style={styles.submit}
           onPress={this.createNewAlarm}
@@ -81,8 +89,13 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#d3d3d3'
   },
-  submitText:{
+  submitText: {
     color:'#fff',
     textAlign:'center',
   },
+  titleText: {
+    fontSize: 26,
+    fontWeight: 'bold',
+    marginBottom: 20,
+  }
 });

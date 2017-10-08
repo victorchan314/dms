@@ -24,11 +24,11 @@ module.exports = class AlarmCreator extends React.Component {
   parseEmails = text => {
     //takes in string and returns array of valid email addresses
     //(separated by comma, semicolon, space, or combination)
-    var emailRegex = /^[A-Z0-9._%+-]+@(?:[A-Z0-9-]+\.)+[A-Z]{2,4}$/i;
-    if (emailRegex.test(text)) {
-      return true
-    }
-    return false
+    // var emailRegex = /^[A-Z0-9._%+-]+@(?:[A-Z0-9-]+\.)+[A-Z]{2,4}$/i;
+    // if (emailRegex.test(text)) {
+    //   return true
+    // }
+    return true
   }
 
   _showDateTimePicker = () => this.setState({ creatingDateTimePickerVisible: true })
