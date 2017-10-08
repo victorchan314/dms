@@ -5,7 +5,7 @@ import AlarmDisplayer from './AlarmDisplayer'
 import { Permissions, Notifications } from 'expo'
 
 const PUSH_KEY = 'push_token3'
-const API_ENDPOINT = '192.168.0.14:8000'
+const API_ENDPOINT = 'http://192.168.0.14:8000'
 
 export default class App extends React.Component {
   constructor() {
@@ -59,12 +59,12 @@ export default class App extends React.Component {
     this.setState({creatingAlarm: true})
   }
 
-  handleCreate = state => {
+  handleCreate = data => {
     this.setState({creatingAlarm: false})
-    this.createAndDisplay(state)
+    this.createAndDisplay(data)
   }
 
-  createAndDisplay = data => {
+  createAndDisplay = (data) => {
     let newAlarm = {
       name: data.creatingAlarmName,
       contact: data.creatingAlarmContact,
@@ -94,12 +94,13 @@ export default class App extends React.Component {
       },
       body: JSON.stringify({
         push_token: this.state.pushToken,
-        alarm_id: newAlarm.id,
+        alarm_id: newAlarm.alarmId,
         start_time: newAlarm.startDate.getTime(),
         interval: repeatIntervalCode,
         warning_time: newAlarm.responseInterval,
         message: newAlarm.message,
         contact: newAlarm.contact,
+        dismiss: false,
       })
     }).done()
   }
@@ -121,26 +122,14 @@ export default class App extends React.Component {
   }
 
   render() {
-    fetch(API_ENDPOINT, {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        push_token: "jfkldsjf",
-        alarm_id: "fjkdls",
-      })
-    }).done()
-
     if (this.state.isNotificationDisplayed) {
       let selected_id = parseInt(this.state.notification.data.alarm_id)
-      let alarm_name
-      for (alarm in this.state.existingAlarms) {
-        if (parseInt(alarm.alarmId) == selected_id) {
-          alarm_name = alarm.name
-        }
-      }
+      // let alarm_name
+      // for (alarm in this.state.existingAlarms) {
+      //   if (parseInt(alarm.alarmId) == selected_id) {
+      //     alarm_name = alarm.name
+      //   }
+      // }
 
       return (
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
@@ -148,7 +137,7 @@ export default class App extends React.Component {
             underlayColor='#fff'
             onPress={this._handleDismissAlarm}
           >
-            <Text>Tap to Dismiss:</Text>
+            <Text>Tap to Dismiss</Text>
           </TouchableHighlight>
         </View>
       )
