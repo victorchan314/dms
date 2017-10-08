@@ -124,12 +124,6 @@ export default class App extends React.Component {
   render() {
     if (this.state.isNotificationDisplayed) {
       let selected_id = parseInt(this.state.notification.data.alarm_id)
-      // let alarm_name
-      // for (alarm in this.state.existingAlarms) {
-      //   if (parseInt(alarm.alarmId) == selected_id) {
-      //     alarm_name = alarm.name
-      //   }
-      // }
 
       return (
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
