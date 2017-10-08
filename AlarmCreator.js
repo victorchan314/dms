@@ -13,10 +13,22 @@ module.exports = class AlarmCreator extends React.Component {
     this.state = {
       creatingAlarmName: "Enter the name of your alarm...",
       creatingEmailContact: "Enter your emergency email contact...",
-      creatingRepeatInterval: 1,
+      creatingMessage: "Enter your emergency message...",
+      creatingRepeatInterval: "Hourly",
+      creatingResponseInterval: 30,
       creatingDate: new Date(),
       creatingDateTimePickerVisible: false,
     }
+  }
+
+  parseEmails = text => {
+    //takes in string and returns array of valid email addresses
+    //(separated by comma, semicolon, space, or combination)
+    var emailRegex = /^[A-Z0-9._%+-]+@(?:[A-Z0-9-]+\.)+[A-Z]{2,4}$/i;
+    if (emailRegex.test(text)) {
+      return true
+    }
+    return false
   }
 
   _showDateTimePicker = () => this.setState({ creatingDateTimePickerVisible: true })
@@ -29,7 +41,9 @@ module.exports = class AlarmCreator extends React.Component {
   }
 
   _handleCompletion = () => {
-
+    if (!this.parseEmails(this.state.creatingEmailContact))
+      return
+    this.props.handleCreate(this.state)
   }
 
   render() {
@@ -52,12 +66,27 @@ module.exports = class AlarmCreator extends React.Component {
             maxLength = {100}
             style={styles.textInput}
           />
-          <Text style={{fontSize: 14, fontWeight: 'bold'}}>Repeat interval (hours):</Text>
+          <Text style={{fontSize: 14, fontWeight: 'bold'}}>Emergency Message:</Text>
+          <TextInput
+            onChangeText={(creatingMessage) => this.setState({creatingMessage})}
+            value={this.state.creatingMessage}
+            editable = {true}
+            maxLength = {100}
+            style={styles.textInput}
+          />
+          <Text style={{fontSize: 14, fontWeight: 'bold'}}>Repeat Interval (hours):</Text>
           <ModalDropdown 
             style={styles.timeInputWrapper}
             dropdownStyle={styles.timeInputDropdown}
             textStyle={styles.timeInputText}
-            options={[1, 2, 3, 4]}
+            options={["Hourly", "Daily", "Weekly"]}
+          />
+          <Text style={{fontSize: 14, fontWeight: 'bold'}}>Time to Respond (minutes):</Text>
+          <ModalDropdown 
+            style={styles.timeInputWrapper}
+            dropdownStyle={styles.timeInputDropdown}
+            textStyle={styles.timeInputText}
+            options={["Hourly", "Daily", "Weekly"]}
           />
           <Text style={{fontSize: 14, fontWeight: 'bold'}}>Start date:</Text>
           <TouchableHighlight

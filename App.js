@@ -7,6 +7,8 @@ export default class App extends React.Component {
     super()
     this.state = {
       creatingAlarm: true,
+      existingAlarms: [],
+      alarmCount: 0,
     }
   }
 
@@ -19,8 +21,26 @@ export default class App extends React.Component {
     this.createAndDisplay(state)
   }
 
-  createAndDisplay = state => {
+  createAndDisplay = data => {
+    let newAlarm = {
+      name: data.creatingAlarmName,
+      contact: data.creatingAlarmContact,
+      repeatInterval: data.creatingRepeatInterval,
+      startDate: data.creatingDate,
+      id: this.state.alarmCount,
+      message: data.message,
+    }
+    this.setState({alarmCount: this.state.alarmCount + 1})
+    // add alarm to list of alarms
 
+    // make api call
+    // hourly, daily, weekly (1, 2, 3) integer
+    // start date (milliseconds -integer)
+    // time to respond (integer from 5 to 55)
+    // push token (string)
+    // contacts (comma delimited string)
+    // message (string)
+    // alarmid (integer)
   }
 
   render() {
