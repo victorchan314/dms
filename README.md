@@ -33,9 +33,9 @@ The mobile app is implemented in React Native with the [Expo API](https://expo.i
 <!--![List of alarms](alarms.png)
 ![Creating an alarm](create.png)
 ![Selecting the start date](date.png)-->
-<img src="alarms.png" alt="List of alarms" style="width:200px">
-<img src="create.png" alt="Creating an alarm" style="width:200px">
-<img src="date.png" alt="Selecting the start date" style="width:200px">
+<img src="alarms.png" alt="List of alarms" height="500px">
+<img src="create.png" alt="Creating an alarm" height="500px">
+<img src="date.png" alt="Selecting the start date" height="500px">
 
 ### Back-end
 
