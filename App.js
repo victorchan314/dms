@@ -1,17 +1,32 @@
 import React from 'react';
-import { StyleSheet, Text, TextInput, View, TouchableHighlight } from 'react-native';
+import { StyleSheet, Text, TextInput, View, TouchableHighlight, AsyncStorage } from 'react-native';
 import AlarmCreator from './AlarmCreator'
 import AlarmDisplayer from './AlarmDisplayer'
+import { Permissions, Notifications } from 'expo'
+
+const PUSH_KEY = 'push_token'
 
 export default class App extends React.Component {
   constructor() {
     super()
+    this.getPushToken()
     this.state = {
       creatingAlarm: false,
       existingAlarms: [],
       alarmCount: 0,
-      pushToken: "TEST",
+      pushToken: "nope",
     }
+  }
+
+  getPushToken = () => {
+    let push_token
+    AsyncStorage.getItem(PUSH_KEY).then((token)=>{
+      if (token == null) {
+        AsyncStorage.setItem(PUSH_KEY, null)
+      } else {
+        this.setState({pushToken: token})
+      }
+    })
   }
 
   createNewAlarm = () => {
@@ -73,12 +88,13 @@ export default class App extends React.Component {
   }
 
   render() {
+    this.getPushToken()
     if (this.state.creatingAlarm) {
       return <AlarmCreator handleCreate={this.handleCreate} />
     }
     return (
       <View style={styles.container}>
-        <Text style={styles.titleText}>Dead Man's Switch</Text>
+        <Text style={styles.titleText}>Dead Man's Switch {this.state.pushToken}</Text>
         <AlarmDisplayer alarms={this.state.existingAlarms} />
         <TouchableHighlight
           style={styles.submit}
