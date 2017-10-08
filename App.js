@@ -5,7 +5,7 @@ import AlarmDisplayer from './AlarmDisplayer'
 import { Permissions, Notifications } from 'expo'
 
 const PUSH_KEY = 'push_token3'
-const PUSH_ENDPOINT = 'https://your-server.com/users/push-token'
+const API_ENDPOINT = 'https://your-server.com/users/push-token'
 
 export default class App extends React.Component {
   constructor() {
@@ -14,10 +14,20 @@ export default class App extends React.Component {
       creatingAlarm: false,
       existingAlarms: [],
       alarmCount: 0,
-      pushToken: "nope",
+      pushToken: null,
+      notification: null,
+      isNotificationDisplayed: false,
     }
     this.getPushToken()
   }
+
+  componentWillMount() {
+    this._notificationSubscription = Notifications.addListener(this._handleNotification);
+  }
+
+  _handleNotification = (notification) => {
+    this.setState({notification: notification, isNotificationDisplayed: true});
+  };
 
   getPushToken = () => {
     let push_token
@@ -76,7 +86,7 @@ export default class App extends React.Component {
     else if (newAlarm.repeatInterval == "Weekly")
       repeatIntervalCode = 3
 
-    fetch(PUSH_ENDPOINT, {
+    fetch(API_ENDPOINT, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -94,23 +104,53 @@ export default class App extends React.Component {
     })
   }
 
+  _handleDismissAlarm = () => {
+    fetch(API_ENDPOINT, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        push_token: this.state.pushToken,
+        alarm_id: this.state.notification.data.alarm_id,
+        dismiss: true,
+      })
+    })
+    this.setState({isNotificationDisplayed: false})
+  }
+
   render() {
-    this.getPushToken()
-    if (this.state.creatingAlarm) {
-      return <AlarmCreator handleCreate={this.handleCreate} />
+    if (this.state.isNotificationDisplayed) {
+      return (
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+          <TouchableHighlight
+            underlayColor='#fff'
+            onPress={this._handleDismissAlarm}
+          >
+            <Text>Origin: {this.state.notification.origin}</Text>
+            <Text>Data: {JSON.stringify(this.state.notification.data)}</Text>
+          </TouchableHighlight>
+        </View>
+      )
     }
-    return (
-      <View style={styles.container}>
-        <Text style={styles.titleText}>Dead Man's Switch</Text>
-        <AlarmDisplayer alarms={this.state.existingAlarms} />
-        <TouchableHighlight
-          style={styles.submit}
-          onPress={this.createNewAlarm}
-          underlayColor='#fff'>
-            <Text style={styles.submitText}>Create a New Alarm</Text>
-        </TouchableHighlight>
-      </View>
-    );
+    else {
+      if (this.state.creatingAlarm) {
+        return <AlarmCreator handleCreate={this.handleCreate} />
+      }
+      return (
+        <View style={styles.container}>
+          <Text style={styles.titleText}>Dead Man's Switch {this.state.pushToken}</Text>
+          <AlarmDisplayer alarms={this.state.existingAlarms} />
+          <TouchableHighlight
+            style={styles.submit}
+            onPress={this.createNewAlarm}
+            underlayColor='#fff'>
+              <Text style={styles.submitText}>Create a New Alarm</Text>
+          </TouchableHighlight>
+        </View>
+      );
+    }
   }
 }
 
