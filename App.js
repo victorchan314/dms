@@ -5,7 +5,7 @@ import AlarmDisplayer from './AlarmDisplayer'
 import { Permissions, Notifications } from 'expo'
 
 const PUSH_KEY = 'push_token3'
-const API_ENDPOINT = 'http://192.168.0.14:8000'
+const API_ENDPOINT = 'http://192.168.43.56:8000'
 
 export default class App extends React.Component {
   constructor() {
