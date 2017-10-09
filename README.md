@@ -6,7 +6,7 @@ Welcome to DMS, a safety and accountability mobile application. DMS is a dead ma
 
 | Team Member | Github |
 | ----------- | ------ |
-| Victor Chan | [victorchan](http://github.com/victorchan314) |
+| Victor Chan | [victorchan314](http://github.com/victorchan314) |
 | Andrew Dickson | [amdson](http://github.com/amdson) |
 | Christian Lee | [chrisjaesun](http://github.com/chrisjaesun) |
 | Henk Tillman | [henktillman](http://github.com/henktillman) |
